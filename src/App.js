@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import { Navbar } from "./Components/Navbar/Navbar.js";
+import { Routes, Route } from "react-router-dom";
+import { Features } from "./Pages/Features.js";
 
+import { About } from "./Pages/About.js";
+import { Home } from "./Pages/Home.js";
+import { Products } from "./Pages/Products.js";
+import { Contact } from "./Pages/Contact.js";
 function App() {
+  const current_theme = localStorage.getItem("current_theme");
+  const [theme, setTheme] = useState(current_theme);
+  useEffect(() => {
+    localStorage.setItem("current_theme", theme);
+  }, [theme]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={`container ${theme}`}>
+      <Navbar theme={theme} setTheme={setTheme} />
+      <Routes>
+        <Route exact path="/"  element={<Home/>} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/features" element={<Features />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
     </div>
   );
 }
